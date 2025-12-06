@@ -6,7 +6,8 @@ import {
     INodeTypeDescription,
 } from 'n8n-workflow';
 
-import * as icloud from '@folk-org/apple-icloud';
+// @ts-ignore
+import icloud = require('@folk-org/apple-icloud');
 
 export class ICloud implements INodeType {
     description: INodeTypeDescription = {

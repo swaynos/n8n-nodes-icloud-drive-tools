@@ -1,4 +1,5 @@
 import { ICloud } from '../nodes/ICloud/ICloud.node';
+// @ts-ignore
 import * as icloud from '@folk-org/apple-icloud';
 
 // Mock n8n execute functions
@@ -6,9 +7,11 @@ const mockExecuteFunctions = {
     getInputData: () => [{ json: {} }],
     getCredentials: async (name: string) => {
         if (name === 'iCloudApi') {
-            // We need a real session here for end-to-end, or we mock the client.
-            // For this test, we'll use a dummy session to verify code paths, 
-            // but the real test needs a real session.
+            if (!process.env.ICLOUD_SESSION_JSON) {
+                console.warn('WARNING: ICLOUD_SESSION_JSON environment variable is not set.');
+                console.warn('The test will likely fail with a connection or parsing error.');
+                console.warn('Please set ICLOUD_SESSION_JSON to a valid iCloud session JSON string.');
+            }
             return { sessionJson: process.env.ICLOUD_SESSION_JSON || '{}' };
         }
         return {};
